@@ -108,7 +108,7 @@ venv.bak/
 # custom
 mmpose/.mim
 /models
-/data
+/data/images
 .vscode
 .idea
 *.pkl
