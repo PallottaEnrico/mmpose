@@ -1,9 +1,4 @@
 _base_ = ['../../configs/_base_/default_runtime.py']
-# from mmpose.datasets.transforms.common_transforms import (Albumentation,
-#                                                           RandomBBoxTransform)
-#
-# from albumentations.augmentations import CoarseDropout
-
 # runtime
 train_cfg = dict(max_epochs=210, val_interval=10)
 
@@ -35,7 +30,7 @@ default_hooks = dict(checkpoint=dict(save_best='coco/AP', rule='greater'))
 
 # codec settings
 codec = dict(
-    type='MSRAHeatmap', input_size=(288, 384), heatmap_size=(72, 96), sigma=3)
+    type='MSRAHeatmap', input_size=(480, 640), heatmap_size=(72, 96), sigma=3)
 
 # model settings
 model = dict(
@@ -129,7 +124,7 @@ val_pipeline = [
 
 # data loaders
 train_dataloader = dict(
-    batch_size=16,
+    batch_size=128,
     num_workers=8,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -143,7 +138,7 @@ train_dataloader = dict(
         metainfo=dict(from_file='configs/_base_/datasets/gate.py')
     ))
 val_dataloader = dict(
-    batch_size=16,
+    batch_size=128,
     num_workers=8,
     persistent_workers=True,
     drop_last=False,
