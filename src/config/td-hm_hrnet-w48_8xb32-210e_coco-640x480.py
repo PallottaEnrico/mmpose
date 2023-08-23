@@ -1,4 +1,8 @@
 _base_ = ['../../configs/_base_/default_runtime.py']
+from mmpose.datasets.transforms.common_transforms import (Albumentation,
+                                                          RandomBBoxTransform)
+
+from albumentations.augmentations import CoarseDropout
 
 # runtime
 train_cfg = dict(max_epochs=210, val_interval=10)
