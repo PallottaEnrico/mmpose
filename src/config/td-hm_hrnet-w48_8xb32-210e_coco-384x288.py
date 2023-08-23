@@ -129,7 +129,7 @@ val_pipeline = [
 
 # data loaders
 train_dataloader = dict(
-    batch_size=128,
+    batch_size=16,
     num_workers=8,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -143,7 +143,7 @@ train_dataloader = dict(
         metainfo=dict(from_file='configs/_base_/datasets/gate.py')
     ))
 val_dataloader = dict(
-    batch_size=128,
+    batch_size=16,
     num_workers=8,
     persistent_workers=True,
     drop_last=False,
