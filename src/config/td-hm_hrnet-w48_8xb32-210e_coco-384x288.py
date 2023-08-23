@@ -104,19 +104,19 @@ train_pipeline = [
     dict(type='RandomHalfBody'),
     dict(type='RandomBBoxTransform'),
     dict(type='TopdownAffine', input_size=codec['input_size']),
-    dict(
-        type=Albumentation,
-        transforms=[
-            dict(
-                type=CoarseDropout,
-                max_holes=1,
-                max_height=0.4,
-                max_width=0.4,
-                min_holes=1,
-                min_height=0.2,
-                min_width=0.2,
-                p=1.),
-        ]),
+    # dict(
+    #     type=Albumentation,
+    #     transforms=[
+    #         dict(
+    #             type=CoarseDropout,
+    #             max_holes=1,
+    #             max_height=0.4,
+    #             max_width=0.4,
+    #             min_holes=1,
+    #             min_height=0.2,
+    #             min_width=0.2,
+    #             p=1.),
+    #     ]),
     dict(type='GenerateTarget', encoder=codec),
     dict(type='PackPoseInputs')
 ]
