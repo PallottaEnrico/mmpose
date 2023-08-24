@@ -81,7 +81,7 @@ model = dict(
 # base dataset settings
 dataset_type = 'CocoDataset'
 data_mode = 'topdown'
-data_root = 'data/'
+data_root = '../../synthetic_image_generator/output/dataset/'
 
 backend_args = dict(backend='local')
 # backend_args = dict(
@@ -168,7 +168,7 @@ train_dataloader = dict(
         data_root=data_root,
         data_mode=data_mode,
         ann_file='train.json',
-        data_prefix=dict(img='images/'),
+        data_prefix=dict(img='train/images/'),
         pipeline=train_pipeline,
         metainfo=dict(from_file='configs/_base_/datasets/gate.py')
     ))
@@ -182,10 +182,10 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='test.json',
+        ann_file='val.json',
         # bbox_file='data/coco/person_detection_results/'
         # 'COCO_val2017_detections_AP_H_56_person.json',
-        data_prefix=dict(img='images/'),
+        data_prefix=dict(img='val/images/'),
         test_mode=True,
         pipeline=val_pipeline,
         metainfo=dict(from_file='configs/_base_/datasets/gate.py')
@@ -212,5 +212,5 @@ custom_hooks = [
 # evaluators
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'test.json')
+    ann_file=data_root + 'val.json')
 test_evaluator = val_evaluator
