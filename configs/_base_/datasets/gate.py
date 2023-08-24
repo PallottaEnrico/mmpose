@@ -46,4 +46,4 @@ dataset_info = dict(
             dict(link=('bottom_left', 'top_left'), id=3, color=[255, 128, 0]),
     },
     joint_weights=[1.] * 4,
-    sigmas=[0.1] * 4)
+    sigmas=[0.05] * 4)
