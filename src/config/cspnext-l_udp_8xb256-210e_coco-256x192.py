@@ -174,7 +174,7 @@ flight01a_dataset = dict(
 combined_train_dataset = dict(
     type="CombinedDataset",
     metainfo=dict(from_file='configs/_base_/datasets/gate.py'),
-    datasets=[manual_dataset, flight01a_dataset],
+    datasets=[manual_dataset],
     pipeline=train_pipeline,
 )
 
