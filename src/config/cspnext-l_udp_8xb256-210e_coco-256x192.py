@@ -157,21 +157,43 @@ train_pipeline_stage2 = [
     dict(type='PackPoseInputs')
 ]
 
+manual_dataset = dict(
+    type=dataset_type,
+    data_root=data_root,
+    ann_file="train.json",
+    data_prefix=dict(img="images/")
+)
+
+flight01a_dataset = dict(
+    type=dataset_type,
+    data_root=data_root,
+    ann_file="flight-01a-ellipse.json",
+    data_prefix=dict(img="flight-01a-ellipse/images/")
+)
+
+combined_train_dataset = dict(
+    type="CombinedDataset",
+    metainfo=dict(from_file='configs/_base_/datasets/gate.py'),
+    datasets=[manual_dataset, flight01a_dataset],
+    pipeline=train_pipeline,
+)
+
 # data loaders
 train_dataloader = dict(
     batch_size=256,
     num_workers=8,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
-    dataset=dict(
-        type=dataset_type,
-        data_root=data_root,
-        data_mode=data_mode,
-        ann_file='train.json',
-        data_prefix=dict(img='images/'),
-        pipeline=train_pipeline,
-        metainfo=dict(from_file='configs/_base_/datasets/gate.py')
-    ))
+    dataset=combined_train_dataset
+    # dataset=dict(
+    #     type=dataset_type,
+    #     data_root=data_root,
+    #     data_mode=data_mode,
+    #     ann_file='train.json',
+    #     data_prefix=dict(img='images/'),
+    #     pipeline=train_pipeline,
+    #     metainfo=dict(from_file='configs/_base_/datasets/gate.py'))
+)
 val_dataloader = dict(
     batch_size=64,
     num_workers=8,
