@@ -63,9 +63,7 @@ model = dict(
         init_cfg=dict(
             type='Pretrained',
             prefix='backbone.',
-            checkpoint='https://download.openmmlab.com/mmdetection/v3.0/'
-                       'rtmdet/cspnext_rsb_pretrain/'
-                       'cspnext-l_8xb256-rsb-a1-600e_in1k-6a760974.pth')),
+            checkpoint='work_dirs/cspnext-l_udp_8xb256-210e_coco-256x192-synt/best_coco_AP_epoch_80.pth')),
     head=dict(
         type='HeatmapHead',
         in_channels=1024,
@@ -157,6 +155,7 @@ train_pipeline_stage2 = [
     dict(type='PackPoseInputs')
 ]
 
+# first 5000 labels (4000 for training)
 manual_dataset = dict(
     type=dataset_type,
     data_root=data_root,
@@ -164,6 +163,7 @@ manual_dataset = dict(
     data_prefix=dict(img="images/")
 )
 
+# manually fixed labels
 flight01a_dataset = dict(
     type=dataset_type,
     data_root=data_root,
@@ -171,10 +171,31 @@ flight01a_dataset = dict(
     data_prefix=dict(img="flight-01a-ellipse/images/")
 )
 
+flight03a_dataset = dict(
+    type=dataset_type,
+    data_root=data_root,
+    ann_file="flight-03a-ellipse.json",
+    data_prefix=dict(img="flight-03a-ellipse/images/")
+)
+
+flight04a_dataset = dict(
+    type=dataset_type,
+    data_root=data_root,
+    ann_file="flight-04a-ellipse.json",
+    data_prefix=dict(img="flight-04a-ellipse/images/")
+)
+
+flight07a_dataset = dict(
+    type=dataset_type,
+    data_root=data_root,
+    ann_file="flight-07a-lemniscate.json",
+    data_prefix=dict(img="flight-07a-lemniscate/images/")
+)
+
 combined_train_dataset = dict(
     type="CombinedDataset",
     metainfo=dict(from_file='configs/_base_/datasets/gate.py'),
-    datasets=[manual_dataset],
+    datasets=[manual_dataset, flight01a_dataset, flight03a_dataset, flight04a_dataset, flight07a_dataset],
     pipeline=train_pipeline,
 )
 
