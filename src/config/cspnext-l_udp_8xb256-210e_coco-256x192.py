@@ -155,49 +155,49 @@ train_pipeline_stage2 = [
     dict(type='PackPoseInputs')
 ]
 
-# first 5000 labels (4000 for training)
-manual_dataset = dict(
-    type=dataset_type,
-    data_root=data_root,
-    ann_file="train.json",
-    data_prefix=dict(img="images/")
-)
-
-# manually fixed labels
-flight01a_dataset = dict(
-    type=dataset_type,
-    data_root=data_root,
-    ann_file="flight-01a-ellipse.json",
-    data_prefix=dict(img="flight-01a-ellipse/images/")
-)
-
-flight03a_dataset = dict(
-    type=dataset_type,
-    data_root=data_root,
-    ann_file="flight-03a-ellipse.json",
-    data_prefix=dict(img="flight-03a-ellipse/images/")
-)
-
-flight04a_dataset = dict(
-    type=dataset_type,
-    data_root=data_root,
-    ann_file="flight-04a-ellipse.json",
-    data_prefix=dict(img="flight-04a-ellipse/images/")
-)
-
-flight07a_dataset = dict(
-    type=dataset_type,
-    data_root=data_root,
-    ann_file="flight-07a-lemniscate.json",
-    data_prefix=dict(img="flight-07a-lemniscate/images/")
-)
-
-combined_train_dataset = dict(
-    type="CombinedDataset",
-    metainfo=dict(from_file='configs/_base_/datasets/gate.py'),
-    datasets=[manual_dataset, flight01a_dataset, flight03a_dataset, flight04a_dataset, flight07a_dataset],
-    pipeline=train_pipeline,
-)
+# # first 5000 labels (4000 for training)
+# manual_dataset = dict(
+#     type=dataset_type,
+#     data_root=data_root,
+#     ann_file="train.json",
+#     data_prefix=dict(img="images/")
+# )
+#
+# # manually fixed labels
+# flight01a_dataset = dict(
+#     type=dataset_type,
+#     data_root=data_root,
+#     ann_file="flight-01a-ellipse.json",
+#     data_prefix=dict(img="flight-01a-ellipse/images/")
+# )
+#
+# flight03a_dataset = dict(
+#     type=dataset_type,
+#     data_root=data_root,
+#     ann_file="flight-03a-ellipse.json",
+#     data_prefix=dict(img="flight-03a-ellipse/images/")
+# )
+#
+# flight04a_dataset = dict(
+#     type=dataset_type,
+#     data_root=data_root,
+#     ann_file="flight-04a-ellipse.json",
+#     data_prefix=dict(img="flight-04a-ellipse/images/")
+# )
+#
+# flight07a_dataset = dict(
+#     type=dataset_type,
+#     data_root=data_root,
+#     ann_file="flight-07a-lemniscate.json",
+#     data_prefix=dict(img="flight-07a-lemniscate/images/")
+# )
+#
+# combined_train_dataset = dict(
+#     type="CombinedDataset",
+#     metainfo=dict(from_file='configs/_base_/datasets/gate.py'),
+#     datasets=[manual_dataset, flight01a_dataset, flight03a_dataset, flight04a_dataset, flight07a_dataset],
+#     pipeline=train_pipeline,
+# )
 
 # data loaders
 train_dataloader = dict(
@@ -205,16 +205,17 @@ train_dataloader = dict(
     num_workers=8,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
-    dataset=combined_train_dataset
-    # dataset=dict(
-    #     type=dataset_type,
-    #     data_root=data_root,
-    #     data_mode=data_mode,
-    #     ann_file='train.json',
-    #     data_prefix=dict(img='images/'),
-    #     pipeline=train_pipeline,
-    #     metainfo=dict(from_file='configs/_base_/datasets/gate.py'))
+    # dataset=combined_train_dataset
+    dataset=dict(
+        type=dataset_type,
+        data_root=data_root,
+        data_mode=data_mode,
+        ann_file='train/train.json',
+        data_prefix=dict(img='train/images/'),
+        pipeline=train_pipeline,
+        metainfo=dict(from_file='configs/_base_/datasets/gate.py'))
 )
+
 val_dataloader = dict(
     batch_size=64,
     num_workers=8,
@@ -225,10 +226,10 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='test.json',
+        ann_file='test/test.json',
         # bbox_file='data/coco/person_detection_results/'
         # 'COCO_val2017_detections_AP_H_56_person.json',
-        data_prefix=dict(img='images/'),
+        data_prefix=dict(img='test/images/'),
         test_mode=True,
         pipeline=val_pipeline,
         metainfo=dict(from_file='configs/_base_/datasets/gate.py')
@@ -255,5 +256,5 @@ custom_hooks = [
 # evaluators
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'test.json')
+    ann_file=data_root + 'test/test.json')
 test_evaluator = val_evaluator
